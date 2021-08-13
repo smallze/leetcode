@@ -44,7 +44,7 @@
 //
 // 
 //
-// 进阶：你能不将整数转为字符串来解决这个问题吗？ 
+// 进阶：你能不将整数转为字符串来解决这个问题吗？
 // Related Topics 数学 
 // 👍 1583 👎 0
 
@@ -52,7 +52,65 @@
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public boolean isPalindrome(int x) {
+        return d(x);
+    }
 
+    private boolean a(int x) {
+        String str = (new StringBuilder(x + "")).reverse().toString();
+        return (x + "").equals(str);
+    }
+
+    private boolean b(int x) {
+        if (x < 0) {
+            return false;
+        }
+        int div = 1;
+        while (x / div >= 10) {
+            div *= 10;
+        }
+        while (x > 0) {
+            int left = x / div;
+            int right = x % 10;
+            if (left != right) {
+                return false;
+            }
+            x = (x % div) / 10;
+            div /= 100;
+        }
+        return true;
+    }
+
+    //时间复杂度 log10(N)
+    //空间复杂度 O(1)
+    public boolean c(int x) {
+        //小于0或者个位数为0时不是回文数，只有0满足条件
+        if (x < 0 || (x != 0 && x % 10 == 0)) {
+            return false;
+        }
+        int revertedNum = 0;
+        while (x > revertedNum) {
+            revertedNum = revertedNum * 10 + x % 10;
+            x /= 10;
+        }
+        // 长度为偶数时直接比较是否相等，长度为奇数时除以10去掉中间的数字
+        return x == revertedNum || x == revertedNum / 10;
+
+    }
+
+
+    public boolean d(int x) {
+        if (x == 0) {
+            return true;
+        }
+        if (x < 0 || (x != 0 && x % 10 == 0)) {
+            return false;
+        }
+        int revertedNum = 0;
+        while (x > revertedNum) {
+            revertedNum = revertedNum * 10 + x % 10;
+            x /= 10;
+        }
+        return x == revertedNum || x == revertedNum / 10;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
